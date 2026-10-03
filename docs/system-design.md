@@ -73,6 +73,25 @@ flowchart TD
 - The module handler reads and writes only through the scoped layer.
 - One route means one batched D1 query, because the Lagos-to-Europe round trip is the budget.
 
+### The two halves and the bridge
+
+The front end and the API are two halves of one Worker, joined by a type-safe bridge.
+
+**React Router SPA** is the front end.
+The server sends a static HTML shell plus a JavaScript bundle once, and navigation happens in the browser with no page reloads (`ssr: false`).
+Routes use `loader`s and `action`s; in SPA mode these run in the browser and become thin wrappers that call the API.
+SPA mode is deliberate: server rendering would sit at or over the free plan's 10 ms CPU ceiling, and every page here is behind a login, so first-paint speed and SEO buy nothing.
+
+**Hono** is the API framework.
+It runs natively in the Workers isolate (no Node adapter) and provides routing and middleware on top of the web-standard `Request`/`Response`.
+In this repo it is where Identity authorises the caller and every route hands off to the scoped data-access layer.
+
+**Hono RPC** is the bridge.
+The API exports its route types, and the front end imports them to get a fully type-checked client, so the path and response shape are checked at compile time.
+Renaming a field in the API breaks the build rather than production.
+
+Together: the SPA's client `loader` calls one Hono endpoint through the RPC client, and that endpoint does auth, one batched D1 query, and returns JSON.
+
 ## 3. Module map
 
 Fixed by [`requirements.md`](./requirements.md) section 4.4.
