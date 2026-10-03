@@ -60,9 +60,28 @@ Revisit if headcount passes roughly a hundred, or if a second site opens, since 
 
 Hashing uses PBKDF2 through the Web Crypto API, which Workers supports natively with no dependency.
 
-**This needs verifying with a spike before it is relied on.**
-The Workers free plan caps CPU at 10 ms per invocation, and PBKDF2 at OWASP-recommended iteration counts may well exceed it.
-If it does not fit, the answer is the Workers Paid plan at five dollars a month, which is the same order as the SMS bill being avoided and lifts other free-tier friction at the same time.
+**Login requires the Workers Paid plan. This is measured, not assumed.**
+
+PBKDF2-SHA256 timings, 256-bit output, median of five runs on an M-series laptop:
+
+| Iterations | Time | Fits a 10 ms budget? |
+|---|---|---|
+| 10,000 | 1.2 ms | yes |
+| 50,000 | 5.6 ms | yes |
+| 100,000 | 10.9 ms | no |
+| 210,000 | 23.0 ms | no |
+| 600,000 | 65.0 ms | no |
+
+The free plan's 10 ms CPU ceiling buys roughly 90,000 iterations.
+OWASP's recommended 600,000 for PBKDF2-SHA256 overshoots it by about six and a half times, on hardware faster than Cloudflare's edge is likely to provide.
+
+Two caveats on the measurement.
+It was Node's Web Crypto rather than workerd, so it establishes the order of magnitude rather than the exact edge figure, and real Cloudflare hardware is likely slower rather than faster.
+Neither caveat is close to mattering: the gap is multiples, not percentages, so no plausible hardware difference brings 600,000 iterations inside 10 ms.
+
+So the resolution is the Workers Paid plan at five dollars a month, where the CPU limit is no longer a constraint of this kind.
+That is the same order as the SMS bill this ADR avoids, and it lifts other free-tier friction at the same time.
+
 The answer is never fewer iterations.
 This is a payroll system, and a fast hash is the one shortcut that cannot be walked back after a leak.
 

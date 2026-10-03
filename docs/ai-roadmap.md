@@ -219,5 +219,5 @@ Where proof of reading is needed, a Document is issued from the Policy and signe
 ## Open questions
 
 1. What does Talabon's performance review rubric look like? Review drafting needs something to assess against, and no rubric exists in the README.
-2. Where do AI-drafted fields live in the schema? Each needs the draft, the human-edited final, and the flag recording that a model touched it.
-   This is now load-bearing rather than tidy-minded: [ADR 0009](./adr/0009-a-person-sees-their-own-committed-record.md) shows a Person their own Employment Events and Performance Reviews, so a draft that is not cleanly separable from a committed fact is a draft the subject can read before a human has committed to it.
+2. ~~Where do AI-drafted fields live in the schema?~~ **Answered,** pending review: section 4.3 of [`requirements.md`](./requirements.md) proposes the seam as a lifecycle state, a separate column for the model's proposal, and retained provenance.
+   It is load-bearing rather than tidy-minded: [ADR 0009](./adr/0009-a-person-sees-their-own-committed-record.md) shows a Person their own Employment Events and Performance Reviews, so a draft that is not cleanly separable from a committed fact is a draft the subject can read before a human has committed to it.

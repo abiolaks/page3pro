@@ -178,8 +178,9 @@ const session = env.DB.withSession();
 
 ## Running on the free plan
 
-The system starts on the Workers Free plan and upgrades when a limit actually bites, not before.
-Phase 1 and most of phase 2 fit comfortably.
+The system needs the Workers Paid plan from phase 1, at five dollars a month, because password hashing does not fit the free plan's 10 ms CPU ceiling and weakening the hash is not an option ([ADR 0008](./adr/0008-login-depends-on-no-external-provider.md)).
+Login is the only thing forcing it.
+Everything else below fits the free plan with room to spare, so the table is still worth reading as a map of what would eventually bite.
 Three design choices above are what make that true, and none of them are compromises: SPA mode rather than server rendering, Payroll Runs as Workflows rather than one large handler, and files in R2 rather than the database.
 
 | Limit | Free plan | Talabon's expected load | Headroom |
@@ -210,8 +211,10 @@ Worth keeping in proportion: **Workers Paid is $5 a month.** That is smaller tha
 
 ## Still open
 
-- **Whether PBKDF2 at a sound iteration count fits the free plan's 10 ms CPU ceiling.** Needs a spike, not a discussion. The fallback is Workers Paid, never a weaker hash.
 - **SMS or WhatsApp provider**, deferred to phase 2 and now a notification channel only, between Termii and Africa's Talking. Nothing blocks on it, since [ADR 0008](./adr/0008-login-depends-on-no-external-provider.md) took it out of the login path.
+- **Rounding rules wherever division occurs**, such as a Loan repayment split across months or a salary pro-rated for a partial period. These are exact-naira decisions, separate from the ₦100 rule in [ADR 0007](./adr/0007-money-is-whole-naira-net-pay-rounds-up-to-100.md), and each needs settling before payroll is built.
+
+Resolved since first draft: PBKDF2 does not fit the free plan's 10 ms CPU ceiling at any sound iteration count, so login requires Workers Paid. Measured in [ADR 0008](./adr/0008-login-depends-on-no-external-provider.md).
 
 ## Sources
 
