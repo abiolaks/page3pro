@@ -183,3 +183,13 @@ A change is not done until all of these hold:
 - The invariants it touches still hold.
 - No new synonym drift from the glossary.
 - Security-sensitive changes have passed `/codeguard-review`.
+
+## 16. Build order: correct first, polish later
+
+Get the app running and correct before making it beautiful.
+Look and feel is a skin added later, not a tax paid upfront.
+
+- Cosmetic decisions are deferred freely: colours, typography, spacing, icons, animation, empty-state art, dashboard layout. Changing them later is restyling, not a rewrite.
+- Structural decisions are the product, not the paint, and are decided now, not later: the forms-first SPA model, the self-service view, and the honest-states principle (an unsigned Document looks outstanding, a draft looks different from a committed fact).
+- shadcn/ui and Tailwind are modular and themeable by design, so the later polish pass is focused and does not touch the logic underneath.
+
