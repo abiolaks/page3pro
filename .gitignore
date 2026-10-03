@@ -1,0 +1,6 @@
+node_modules/
+build/
+.wrangler/
+.react-router/
+.dev.vars
+coverage/

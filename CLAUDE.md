@@ -2,6 +2,7 @@
 
 Always follow `docs/tech-stack.md` - the tech stack and coding-standards contract for this repo.
 Read `CONTEXT.md`, `docs/system-design.md`, and the relevant `docs/adr/` before writing any code.
+Start from the ADR index at `docs/adr/README.md` to find which decisions apply to the module you are touching, then read those ADRs in full.
 Where the standards doc and an ADR disagree, the ADR wins.
 
 ## Agent skills
