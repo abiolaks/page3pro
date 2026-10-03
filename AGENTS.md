@@ -1,3 +1,9 @@
+## Coding standards and tech stack
+
+Always follow `docs/tech-stack.md` - it is the tech stack and coding-standards contract for this repo.
+Read it, `CONTEXT.md`, and the relevant `docs/adr/` before writing any code.
+Where the standards doc and an ADR disagree, the ADR wins.
+
 ## Agent skills
 
 ### Issue tracker
