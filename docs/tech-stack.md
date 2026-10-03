@@ -24,7 +24,7 @@ Do not substitute these without reopening the ADR.
 | PDF generation | Browser Rendering (HTML Template to PDF) |
 | Payroll Runs | Workflows (phase 2) |
 | Scheduled work | Cron Triggers |
-| AI | Anthropic SDK through AI Gateway |
+| AI | All model calls through AI Gateway; model chosen per feature in one `ai` module ([ADR 0012](./adr/0012-model-routing-in-code-not-in-the-gateway.md)) |
 | Plan | Workers Paid (PBKDF2 does not fit free, measured in ADR 0008) |
 | Tests | Vitest against a real D1 |
 
@@ -144,6 +144,7 @@ At minimum:
 - Validate and normalise input at the boundary.
 - Authorisation is structural, through the scoped data-access layer, not a per-route check.
 - A credential (phone number, password, TOTP) is never treated as ordinary contact data.
+- AI guardrails follow [ADR 0013](./adr/0013-ai-guardrails-defense-in-depth.md): data minimisation, a read-only assistant role, DLP on bank accounts and credentials, and a prompt-injection block.
 
 ## 12. Error handling
 
